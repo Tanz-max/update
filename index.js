@@ -76,31 +76,6 @@ await ctx.reply(
 );
 });
 
-saveUser(ctx.from.id);
-const db = JSON.parse(fs.readFileSync(userDBPath));
-const totalUser = Object.keys(db).length;
-
-const imagePath = path.join(__dirname, 'banner.jpg');
-
-try {
-    const member = await ctx.telegram.getChatMember(CHANNEL_ID, ctx.from.id);
-    const status = member.status;
-
-    if (['left', 'kicked'].includes(status)) {
-      return await ctx.replyWithPhoto(
-        { source: imagePath },
-        {
-          caption: '```\n❌ your not acces, joined chanels for acces command.\n\n📢 please join first:\n```',
-          parse_mode: 'MarkdownV2',
-          reply_to_message_id: ctx.message.message_id,
-          ...Markup.inlineKeyboard([
-            [Markup.button.url('🌸Chanels', `https://t.me/${CHANNEL_ID.replace('@', '')}`)],
-            [Markup.button.callback('☘️Check', 'check_sub')]
-          ])
-        }
-      );
-    }
-
 bot.action('check_sub', async (ctx) => {
   try {
     const member = await ctx.telegram.getChatMember(CHANNEL_ID, ctx.from.id);
