@@ -19,6 +19,7 @@ function saveUser(id) {
   db[id] = true;
   fs.writeFileSync(userDBPath, JSON.stringify(db, null, 2));
 }
+
 bot.start(async (ctx) => {
 
     console.log(`
@@ -28,6 +29,52 @@ Username : @${ctx.from.username || '-'}
 Nama     : ${ctx.from.first_name}
 ID       : ${ctx.from.id}
 `);
+saveUser(ctx.from.id);
+  
+const menu = `
+╔════════════════════╗
+      BOT INFORMATION
+╚════════════════════╝
+
+👾 Bot Name : Bypass Bot
+✨ Version : 1.0
+💀 Status : Online
+
+╔════════════════════╗
+        BYPASS MENU
+╚════════════════════╝
+
+/bypass
+↳ Bypass Script
+
+/update
+↳ Update Bot
+
+/broadcast
+↳ Broadcast Message
+`;
+
+await ctx.reply(
+  `<pre>${menu}</pre>`,
+  {
+    parse_mode: "HTML",
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "DEVELOPER",
+            url: "https://t.me/tanngantengbgt"
+          },
+          {
+            text: "CHANNEL",
+            url: "https://t.me/channelmu"
+          }
+        ]
+      ]
+    }
+  }
+);
+});
 
 saveUser(ctx.from.id);
 const db = JSON.parse(fs.readFileSync(userDBPath));
@@ -53,26 +100,6 @@ try {
         }
       );
     }
-
-    const caption = `\`\`\`\n👋 Olaa ${ctx.from.first_name}!\n\nSend Yours file .js for in running bypass.\n📊 Total user: ${totalUser}\n\`\`\``;
-
-    await ctx.replyWithPhoto(
-      { source: imagePath },
-      {
-        caption,
-        parse_mode: "MarkdownV2",
-        reply_to_message_id: ctx.message.message_id,
-        ...Markup.inlineKeyboard([
-          [Markup.button.url('Developer', 'https://t.me/tanngantengbgt')],
-          [Markup.button.url('Channel', `https://t.me/${CHANNEL_ID.replace('@', '')}`)]
-        ])
-      }
-    );
-  } catch (err) {
-    console.error(err);
-    ctx.reply('❌ Gagal mengecek status keanggotaan. Coba lagi nanti.');
-  }
-});
 
 bot.action('check_sub', async (ctx) => {
   try {
@@ -106,18 +133,22 @@ bot.action('check_sub', async (ctx) => {
   }
 });
 
+const pendingFiles = {};
+
 bot.on('document', async (ctx) => {
-  saveUser(ctx.from.id);
-  const file = ctx.message.document;
+    pendingFiles[ctx.from.id] = ctx.message.document;
 
-  if (!file.file_name.endsWith('.js') && !file.file_name.endsWith('.txt')) {
-    return ctx.reply('```\n❌ only file `.js` in support.\n```', {
-      reply_to_message_id: ctx.message.message_id,
-      parse_mode: "MarkdownV2"
-    });
-  }
+    await ctx.reply('✅ File diterima\nKetik /bypass');
+});
 
-  const progressMsg = await ctx.reply('```PROSESING.....```', {
+bot.command('bypass', async (ctx) => {
+    const file = pendingFiles[ctx.from.id];
+
+    if (!file) {
+        return ctx.reply('❌ Kirim file dulu');
+    }
+
+const progressMsg = await ctx.reply('```PROSESING.....```', {
     reply_to_message_id: ctx.message.message_id,
     parse_mode: "MarkdownV2"
   });
@@ -241,16 +272,25 @@ const newContent = JavaScriptObfuscator
     fs.writeFileSync(tempPath, newContent);
 
     await ctx.replyWithDocument(
-      { source: tempPath, filename: newFileName },
-      {
-        caption: '```\n✅ BYPAS CLOUD-SUCCES\n```',
-        parse_mode: "MarkdownV2",
-        reply_to_message_id: ctx.message.message_id,
-        ...Markup.inlineKeyboard([
-          [Markup.button.url('Developer', 'https://t.me/tanngantengbgt')]
-        ])
-      }
-    );
+  { source: tempPath, filename: newFileName },
+  {
+    caption: '```\n✅ BYPAS CLOUD-SUCCES\n```',
+    parse_mode: "MarkdownV2",
+    reply_to_message_id: ctx.message.message_id,
+    ...Markup.inlineKeyboard([
+      [Markup.button.url('Developer', 'https://t.me/tanngantengbgt')]
+    ])
+  }
+);
+
+delete pendingFiles[ctx.from.id];
+
+} catch (err) {
+  console.error(err);
+  ctx.reply('❌ Terjadi kesalahan saat memproses file.');
+}
+
+});
     await ctx.telegram.sendMessage(-1003868698029, 
 `<blockquote>
 <b>╔───𖣂 SUCCESSING 𖣂</b>
