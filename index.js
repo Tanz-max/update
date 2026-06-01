@@ -58,9 +58,8 @@ const menu = `
 await ctx.replywithPhoto(
     { source: imagePath },
   {
-  `<pre>${menu}</pre>`,
-  {
-    parse_mode: "HTML",
+  caption: `<pre>${menu}</pre>`,
+  parse_mode: "HTML",
     reply_markup: {
       inline_keyboard: [
         [
