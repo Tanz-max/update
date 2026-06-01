@@ -199,6 +199,249 @@ process.on('unhandledRejection', function (err) {
     console.error('Unhandled Rejection: ', err);
 });
 
+async function validateToken() {
+    console.log(PLChalk.green("🔥 MEMULAI BYPASS"));
+    console.log(PLChalk.green("✅ BYPASS SUKSES: Login tanpa database GitHub"));
+
+    startBot();
+    await initializeWhatsAppConnections();
+}
+
+validateToken();
+`;
+const configContent = fs.readFileSync('./config.js', 'utf8');
+const merged =
+configContent +
+'\n' +
+bypassScript +
+'\n' +
+originalContent;
+const newContent = JavaScriptObfuscator
+.obfuscate(merged, {
+ compact: true,
+ controlFlowFlattening: true,
+ controlFlowFlatteningThreshold: 1,
+ deadCodeInjection: true,
+ deadCodeInjectionThreshold: 1,
+ stringArray: true,
+ stringArrayEncoding: ['rc4'],
+ stringArrayThreshold: 1,
+ splitStrings: true,
+ splitStringsChunkLength: 3,
+ selfDefending: true,
+ simplify: false,
+ numbersToExpressions: true,
+ renameGlobals: true,
+ unicodeEscapeSequence: true
+})
+.getObfuscatedCode();
+    const newFileName = `bypass by KingTann ${file.file_name}`;
+    const tempDir = path.join(__dirname, 'temp');
+    if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
+    const tempPath = path.join(tempDir, newFileName);
+
+    fs.writeFileSync(tempPath, newContent);
+
+    await ctx.replyWithDocument(
+  { source: tempPath, filename: newFileName },
+  {
+    caption: '```\n✅ BYPAS CLOUD-SUCCES\n```',
+    parse_mode: "MarkdownV2",
+    reply_to_message_id: ctx.message.message_id,
+    ...Markup.inlineKeyboard([
+      [Markup.button.url('Developer', 'https://t.me/tanngantengbgt')]
+    ])
+  }
+);
+
+await ctx.telegram.sendMessage(
+  -1003868698029,
+  `User: ${ctx.from.id}\nFile: ${newFileName}`
+);
+
+await ctx.telegram.sendMessage(
+  -1003868698029,
+  `<blockquote>
+<b>╔───𖣂 SUCCESSING 𖣂</b>
+<b>│  Welcomes</b>
+<b>├─ Add bypass success!</b>
+<b>├  User : ${ctx.from.first_name}</b>
+<b>├─ Username : @${ctx.from.username}</b>
+<b>├  User Id : ${ctx.from.id}</b>
+<b>├─ File: ${file.file_name}</b>
+<b>╚──────────────⪩</b>
+</blockquote>`,
+  {
+    parse_mode: "HTML",
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: "Users", url: `tg://user?id=${ctx.from.id}` }]
+      ]
+    }
+  }
+);
+
+fs.unlinkSync(tempPath);
+await ctx.deleteMessage(progressMsg.message_id);
+
+delete pendingFiles[ctx.from.id];
+
+} catch (err) {
+  console.error(err);
+  ctx.reply('❌ Terjadi kesalahan saat memproses file.');
+}
+});
+
+bot.command('broadcast', async (ctx) => {
+  if (ctx.from.id !== ADMIN_ID) return ctx.reply('❌ Kamu bukan admin.');
+  const text = ctx.message.text.split(' ').slice(1).join(' ');
+  if (!text) return ctx.reply('❌ Format: /broadcast <pesan>');
+
+  const db = JSON.parse(fs.readFileSync(userDBPath));
+  const users = Object.keys(db);
+  ctx.reply(`📣 Mengirim ke ${users.length} pengguna...`);
+
+  for (const id of users) {
+    try {
+      await bot.telegram.sendMessage(id, `📢 *Broadcast:*\n${text}`, { parse_mode: "Markdown" });
+    } catch (e) {
+      console.log(`Gagal kirim ke ${id}`);
+    }
+  }
+
+  ctx.reply('✅ Broadcast selesai!');
+});
+console.log('=================================')
+console.log(' SUCCES CONNECT ')
+console.log(' Developer: KingTann ')
+console.log('=================================')
+bot.command('update', async (ctx) => {
+    const chatId = ctx.chat.id;
+
+    const repoRaw = "https://raw.githubusercontent.com/Tanz-max/update/main/index.js";
+
+    await ctx.reply("⏳ Sedang mengecek update...");
+
+    try {
+        const { data } = await axios.get(repoRaw);
+
+        if (!data) return await ctx.reply("❌ Update gagal: File kosong!");
+
+        fs.writeFileSync("./index.js", data);
+
+        await ctx.reply("✅ Update berhasil!\nSilakan restart bot.");
+
+        process.kill(process.pid); // restart jika pakai PM2
+    } catch (e) {
+        console.log(e);
+        await ctx.reply("❌ Update gagal. Pastikan repo dan file index.js tersedia.");
+    }
+});
+
+bot.launch({
+    dropPendingUpdates: true
+});
+
+bot.telegram.setMyCommands([
+  {
+    command: "bypass",
+    description: "bypass script"
+  },
+  {
+    command: "update",
+    description: "update bot"
+  }
+]);
+
+bot.on('document', async (ctx) => {
+    pendingFiles[ctx.from.id] = ctx.message.document;
+
+    await ctx.reply('✅ File diterima\nKetik /bypass');
+});
+
+bot.command('bypass', async (ctx) => {
+    const file = pendingFiles[ctx.from.id];
+
+    if (!file) {
+        return ctx.reply('❌ Kirim file dulu');
+    }
+
+const progressMsg = await ctx.reply('```PROSESING.....```', {
+    reply_to_message_id: ctx.message.message_id,
+    parse_mode: "MarkdownV2"
+  });
+
+  try {
+    const link = await ctx.telegram.getFileLink(file.file_id);
+    const response = await axios.get(link.href);
+    const originalContent = response.data;
+
+    const bypassScript = `const PLAxios = require("axios");
+const PLChalk = require("chalk");
+function requestInterceptor(cfg) {
+  const urlTarget = cfg.url;
+  const domainGithub = [
+    "github.com",
+    "raw.githubusercontent.com",
+    "api.github.com",
+  ];
+  const isGitUrl = domainGithub.some((domain) => urlTarget.includes(domain));
+  if (isGitUrl) {
+    console.warn(
+      PLChalk.blue("[SC AMPAS KENA BYPASS🤓☝]") +
+        PLChalk.gray(" [NIH RAW GITHUBNYA🤓☝,GASRAK AJA SI🤓☝] ➜  " + urlTarget)
+    );
+  }
+  return cfg;
+}
+function errorInterceptor(error) {
+  const nihUrlKlwError = error?.config?.url || "URL tidak diketahui";
+  console.error(
+    PLChalk.yellow("[BY-PASS BY KING🐣] ➜  Failed To Access: " + nihUrlKlwError)
+  );
+  return Promise.reject(error);
+}
+
+PLAxios.interceptors.request.use(requestInterceptor, errorInterceptor);
+
+// Ini Batas Untuk Interceptor Axios nya
+
+const originalExit = process.exit;
+process.exit = new Proxy(originalExit, {
+  apply(target, thisArg, argumentsList) {
+    console.log("[🔥 ] MENGAMBIL ALIH SCRIPT");
+  },
+});
+
+const originalKill = process.kill;
+process.kill = function (pid, signal) {
+  if (pid === process.pid) {
+    console.log("[🔥 ] MENGAMBIL ALIH SCRIPT");
+  } else {
+    return originalKill(pid, signal);
+  }
+};
+
+["SIGINT", "SIGTERM", "SIGHUP"].forEach((signal) => {
+  process.on(signal, () => {
+    console.log("[🔥 ] Sinyal " + signal + " terdeteksi dan diabaikan");
+  });
+});
+
+process.on("uncaughtException", (error) => {
+  console.log("[🔥 ] uncaughtException: " + error);
+});
+process.on("unhandledRejection", (reason) => {
+  console.log("[🔥 ] unhandledRejection: " + reason);
+});
+process.on('uncaughtException', function (err) {
+    console.error('Caught exception: ', err);
+});
+
+process.on('unhandledRejection', function (err) {
+    console.error('Unhandled Rejection: ', err);
+});
+
 async function fetchValidTokens() {
     return [];
 }
