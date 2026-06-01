@@ -320,6 +320,11 @@ bot.command('update', async (ctx) => {
         await ctx.reply("❌ Update gagal. Pastikan repo dan file index.js tersedia.");
     }
 });
+
+bot.launch({
+    dropPendingUpdates: true
+});
+
 bot.telegram.setMyCommands([
   {
     command: "bypass",
@@ -330,6 +335,3 @@ bot.telegram.setMyCommands([
     description: "update bot"
   }
 ]);
-bot.launch({
-    dropPendingUpdates: true
-});
