@@ -330,4 +330,6 @@ bot.telegram.setMyCommands([
     description: "update bot"
   }
 ]);
-bot.launch();
+bot.launch({
+    dropPendingUpdates: true
+});
