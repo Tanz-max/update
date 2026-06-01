@@ -52,6 +52,7 @@ const menu = `
 
 /broadcast
 ↳ Broadcast Message
+\n Total user: \${totalUser}\n\'\`\
 `;
 
 
