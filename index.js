@@ -30,6 +30,8 @@ Nama     : ${ctx.from.first_name}
 ID       : ${ctx.from.id}
 `);
 saveUser(ctx.from.id);
+const db = JSON.parse(fs.readFileSync(userDBPath));
+const totalUser = Object.keys(db).length;
   
 const menu = `
 ╔════════════════════╗
@@ -52,7 +54,7 @@ const menu = `
 
 /broadcast
 ↳ Broadcast Message
-\n Total user: \${totalUser}\n\'\`\
+\n Total user:${totalUser}
 `;
 
 
