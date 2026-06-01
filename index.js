@@ -314,7 +314,7 @@ bot.command('update', async (ctx) => {
 
         await ctx.reply("✅ Update berhasil!\nSilakan restart bot.");
 
-        process.exit(); // restart jika pakai PM2
+        process.kill(process.pid); // restart jika pakai PM2
     } catch (e) {
         console.log(e);
         await ctx.reply("❌ Update gagal. Pastikan repo dan file index.js tersedia.");
