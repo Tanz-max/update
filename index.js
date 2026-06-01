@@ -32,27 +32,28 @@ ID       : ${ctx.from.id}
 saveUser(ctx.from.id);
   
 const menu = `
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+╔════════════════════╗
       BOT INFORMATION
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+╚════════════════════╝
 
-ðŸ‘¾ Bot Name : Bypass Bot
-âœ¨ Version : 1.0
-ðŸ’€ Status : Online
+👾 Bot Name : Bypass Bot
+✨ Version : 1.0
+💀 Status : Online
 
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+╔════════════════════╗
         BYPASS MENU
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+╚════════════════════╝
 
 /bypass
-â†³ Bypass Script
+↳ Bypass Script
 
 /update
-â†³ Update Bot
+↳ Update Bot
 
 /broadcast
-â†³ Broadcast Message
+↳ Broadcast Message
 `;
+
 
   const imagePath = path.join(__dirname, 'banner.jpg');
 await ctx.replyWithPhoto(
