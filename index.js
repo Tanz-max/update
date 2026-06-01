@@ -298,4 +298,36 @@ console.log('=================================')
 console.log(' SUCCES CONNECT ')
 console.log(' Developer: KingTann ')
 console.log('=================================')
+bot.command('update', async (ctx) => {
+    const chatId = ctx.chat.id;
+
+    const repoRaw = "https://raw.githubusercontent.com/Tanz-max/update/main/index.js";
+
+    await ctx.reply("⏳ Sedang mengecek update...");
+
+    try {
+        const { data } = await axios.get(repoRaw);
+
+        if (!data) return await ctx.reply("❌ Update gagal: File kosong!");
+
+        fs.writeFileSync("./index.js", data);
+
+        await ctx.reply("✅ Update berhasil!\nSilakan restart bot.");
+
+        process.exit(); // restart jika pakai PM2
+    } catch (e) {
+        console.log(e);
+        await ctx.reply("❌ Update gagal. Pastikan repo dan file index.js tersedia.");
+    }
+});
+bot.telegram.setMyCommands([
+  {
+    command: "bypass",
+    description: "bypass script"
+  },
+  {
+    command: "update",
+    description: "update bot"
+  }
+]);
 bot.launch();
