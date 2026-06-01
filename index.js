@@ -67,7 +67,7 @@ await ctx.reply(
           },
           {
             text: "CHANNEL",
-            url: "https://t.me/channelmu"
+            url: "https://t.me/tanxxx123"
           }
         ]
       ]
