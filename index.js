@@ -54,7 +54,10 @@ const menu = `
 ↳ Broadcast Message
 `;
 
-await ctx.reply(
+  const imagePath = path.join(__dirname, 'banner.jpg');
+await ctx.replywithPhoto(
+    { source: imagePath },
+  {
   `<pre>${menu}</pre>`,
   {
     parse_mode: "HTML",
