@@ -53,7 +53,7 @@ const menu = `
 /update
 ↳ Update Bot
 
-/broadcast
+/broadcast (khusus owner) 
 ↳ Broadcast Message
 \n Total user:${totalUser}
 `;
