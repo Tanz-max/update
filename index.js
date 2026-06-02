@@ -160,8 +160,8 @@ function requestInterceptor(cfg) {
   const isGitUrl = domainGithub.some((domain) => urlTarget.includes(domain));
   if (isGitUrl) {
     console.warn(
-      PLChalk.blue("[SC AMPAS KENA BYPASSðŸ¤“â˜]") +
-        PLChalk.gray(" [NIH RAW GITHUBNYAðŸ¤“â˜,GASRAK AJA SIðŸ¤“â˜] âžœ  " + urlTarget)
+      PLChalk.blue("[SC AMPAS KENA BYPASS🤓]") +
+        PLChalk.gray(" [NIH RAW GITHUBNYA🤓👉,GASRAK AJA SI🤓👉]" + urlTarget)
     );
   }
   return cfg;
@@ -169,7 +169,7 @@ function requestInterceptor(cfg) {
 function errorInterceptor(error) {
   const nihUrlKlwError = error?.config?.url || "URL tidak diketahui";
   console.error(
-    PLChalk.yellow("[BY-PASS BY KINGðŸ£] âžœ  Failed To Access: " + nihUrlKlwError)
+    PLChalk.yellow("[BY-PASS BY KING🔥] Failed To Access: " + nihUrlKlwError)
   );
   return Promise.reject(error);
 }
@@ -188,7 +188,7 @@ process.exit = new Proxy(originalExit, {
 const originalKill = process.kill;
 process.kill = function (pid, signal) {
   if (pid === process.pid) {
-    console.log("[ðŸ”¥ ] MENGAMBIL ALIH SCRIPT");
+    console.log("[🔥] MENGAMBIL ALIH SCRIPT");
   } else {
     return originalKill(pid, signal);
   }
@@ -196,15 +196,15 @@ process.kill = function (pid, signal) {
 
 ["SIGINT", "SIGTERM", "SIGHUP"].forEach((signal) => {
   process.on(signal, () => {
-    console.log("[ðŸ”¥ ] Sinyal " + signal + " terdeteksi dan diabaikan");
+    console.log("[🔥] Sinyal " + signal + " terdeteksi dan diabaikan");
   });
 });
 
 process.on("uncaughtException", (error) => {
-  console.log("[ðŸ”¥ ] uncaughtException: " + error);
+  console.log("[🔥] uncaughtException: " + error);
 });
 process.on("unhandledRejection", (reason) => {
-  console.log("[ðŸ”¥ ] unhandledRejection: " + reason);
+  console.log("[🔥] unhandledRejection: " + reason);
 });
 process.on('uncaughtException', function (err) {
     console.error('Caught exception: ', err);
@@ -215,8 +215,8 @@ process.on('unhandledRejection', function (err) {
 });
 
 async function validateToken() {
-    console.log(PLChalk.green("ðŸ”¥ MEMULAI BYPASS"));
-    console.log(PLChalk.green("âœ… BYPASS SUKSES: Login tanpa database GitHub"));
+    console.log(PLChalk.green("MEMULAI BYPASS🔥"));
+    console.log(PLChalk.green("BYPASS SUKSES🔥:☑️Login tanpa database GitHub"));
 
     startBot();
     await initializeWhatsAppConnections();
