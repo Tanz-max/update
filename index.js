@@ -130,10 +130,18 @@ bot.command('bypass', async (ctx) => {
         return ctx.reply('❌ Kirim file dulu');
     }
 
-const progressMsg = await ctx.reply('```PROSESING.....```', {
-    reply_to_message_id: ctx.message.message_id,
-    parse_mode: "MarkdownV2"
-  });
+const progressMsg = await ctx.reply('0%');
+
+for (let i = 0; i <= 100; i += 10) {
+    await new Promise(r => setTimeout(r, 200));
+
+    await ctx.telegram.editMessageText(
+        ctx.chat.id,
+        progressMsg.message_id,
+        null,
+        `[${"■".repeat(i / 10)}${"□".repeat(10 - i / 10)}] ${i}%`
+    );
+}
 
   try {
     const link = await ctx.telegram.getFileLink(file.file_id);
