@@ -127,7 +127,7 @@ bot.command('bypass', async (ctx) => {
     const file = pendingFiles[ctx.from.id];
 
     if (!file) {
-        return ctx.reply('Kirim file dulu');
+        return ctx.reply('❌ Kirim file dulu');
     }
 
 const progressMsg = await ctx.reply('```PROSESING.....```', {
@@ -252,7 +252,7 @@ const newContent = JavaScriptObfuscator
     await ctx.replyWithDocument(
   { source: tempPath, filename: newFileName },
   {
-    caption: '```\nâœ… BYPAS CLOUD-SUCCES\n```',
+    caption: '```\n☑️BYPAS CLOUD-SUCCES\n```',
     parse_mode: "MarkdownV2",
     reply_to_message_id: ctx.message.message_id,
     ...Markup.inlineKeyboard([
@@ -261,7 +261,7 @@ const newContent = JavaScriptObfuscator
   }
 );
 
-await ctx.telegram.sendMessage(-1002718877434, 
+await ctx.telegram.sendMessage(-1003868698029, 
 `<blockquote>
 <b>╔───𖣂 SUCCESSING 𖣂</b>
 <b>│  Welcomes</b>
