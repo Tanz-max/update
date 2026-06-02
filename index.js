@@ -304,17 +304,17 @@ bot.command('broadcast', async (ctx) => {
 
   const db = JSON.parse(fs.readFileSync(userDBPath));
   const users = Object.keys(db);
-  ctx.reply(`ðŸ“£ Mengirim ke ${users.length} pengguna...`);
+  ctx.reply(`📣Mengirim ke ${users.length} pengguna...`);
 
   for (const id of users) {
     try {
-      await bot.telegram.sendMessage(id, `ðŸ“¢ *Broadcast:*\n${text}`, { parse_mode: "Markdown" });
+      await bot.telegram.sendMessage(id, `📣*Broadcast:*\n${text}`, { parse_mode: "Markdown" });
     } catch (e) {
       console.log(`Gagal kirim ke ${id}`);
     }
   }
 
-  ctx.reply('âœ… Broadcast selesai!');
+  ctx.reply('☑️Broadcast selesai!');
 });
 console.log('=================================')
 console.log(' SUCCES CONNECT ')
